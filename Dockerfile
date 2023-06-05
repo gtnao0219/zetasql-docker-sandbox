@@ -8,7 +8,10 @@ RUN set -e && \
   echo "deb [arch=amd64] https://storage.googleapis.com/bazel-apt stable jdk1.8" | tee /etc/apt/sources.list.d/bazel.list && \
   apt update -y && \
   apt install -y bazel bazel-4.0.0
-COPY . .
+COPY .bazelrc .bazelrc
+COPY WORKSPACE WORKSPACE
+COPY src src
+# for caching
 RUN set -e && \
-   bazel --output_user_root=/app/output build //src:empty
+   bazel --output_user_root=/app/output build //src:example
 
